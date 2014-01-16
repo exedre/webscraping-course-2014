@@ -44,3 +44,70 @@ Da questa pagina è possibile avere accesso al materiale rilasciato per il corso
 - 10 Webscraping 2 (paginegialle) (video)
 - 11 scraperwiki (video)
 - 12 scrapy (video)
+
+
+## Riferimenti
+
+## Chrome Scraper
+
+- [Open Source Chrome - da installare sul desktop][http://portableapps.com/apps/internet/iron_portable] (come si installa [video][http://qui] 
+
+## Google Spreadsheet
+
+- [
+- [ImportXML][http://www.seerinteractive.com/blog/importxml-cookbook]
+
+## Espressioni Regolari
+
+- [Regular Expressions Tutorial][http://www.regular-expressions.info/tutorial.html]
+
+## Selettori CSS
+
+- http://www.w3schools.com/cssref/css_selectors.asp
+
+
+### Imparare Python
+
+- http://www.codecademy.com/tracks/python
+- https://developers.google.com/edu/python/
+- http://docs.python.org/2/tutorial/
+- http://www.learnpython.org/
+- http://www.py4inf.com/
+- http://www.tutorialspoint.com/python/index.htm
+
+
+## Uso di Python per lo scraping
+
+- [Creating a Spider with Python Mechanize to Monitor Your Website][http://blog.cnizz.com/2010/09/15/creating-a-spider-with-python-mechanize-to-monitor-your-website/]
+
+- [The python files from my web scraping tutorials][https://github.com/creeveshft/Web_Scraping]
+
+- http://www.slideshare.net/hhamalai/python-for-data-science
+
+- [How to use proxies][http://webscraping.com/blog/How-to-use-proxies/]
+
+- [HTML Scraping][http://docs.python-guide.org/en/latest/scenarios/scrape/]
+
+- [An Introduction to Compassionate Screen Scraping][http://lethain.com/an-introduction-to-compassionate-screenscraping/]
+
+- [Web Scraping with Python][https://software.rc.fas.harvard.edu/training/scraping2/latest/index.psp#]
+
+## Tutorial librerie Python
+
+- [BeautifulSoup Tutorial][http://www.nyu.edu/projects/politicsdatalab/workshops/BeautifulSoup.pdf]
+
+
+## Python per l'Analisi dei Dati
+- [Python for Data Analysis: The Landscape of Tutorials][http://datacommunitydc.org/blog/2013/07/python-for-data-analysis-the-landscape-of-tutorials/]
+
+## Distribuzioni Python per l'analisi dei dati
+
+- https://www.enthought.com/products/canopy/
+- http://www.continuum.io
+
+
+
+
+## I link utilizzati negli esempi
+
+- 
