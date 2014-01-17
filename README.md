@@ -50,12 +50,16 @@ Da questa pagina è possibile avere accesso al materiale rilasciato per il corso
 
 ## Chrome Scraper
 
-- [Open Source Chrome - da installare sul desktop](http://portableapps.com/apps/internet/iron_portable) (come si installa [video](http://qui) 
+- [Open Source Chrome - da installare sul desktop Windows](http://portableapps.com/apps/internet/iron_portable) (come si installa [video](http://qui) )
+- [Open Source Python - da installare sul desktop Windows](http://portableapps.com/apps/internet/iron_portable) (come si installa [video](http://qui) )
 
 ## Google Spreadsheet
 
-- [
+- [ImportHTML](http://www.labnol.org/internet/import-html-in-google-docs/28125/)
+- [ImportData](https://developers.google.com/secure-data-connector/docs/1.3/tutorials/spreadsheets)
+- [ImportFeed](http://www.labnol.org/internet/office/use-google-docs-spreadsheet-as-rss-reader-feed-aggregator/3527/)
 - [ImportXML](http://www.seerinteractive.com/blog/importxml-cookbook)
+- [ImportXML](https://www.distilled.net/blog/distilled/guide-to-google-docs-importxml/)
 
 ## Espressioni Regolari
 
