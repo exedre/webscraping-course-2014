@@ -4,7 +4,7 @@ Da questa pagina è possibile avere accesso al materiale rilasciato per il corso
 
 È possibile accedere agli esempi di
 [codice](https://github.com/exedre/webscraping-course-2014/), alle
-[ slides e ai video](https://www.dropbox.com/sh/jbav67ad0zdnzef/5RG9BY5U1N). I
+[ slides e ai video](https://www.dropbox.com/sh/jbav67ad0zdnzef/5RG9BY5U1N) e alla trascrizione del [2° giorno](http://exedre.github.io/webscraping-course-2014/transcript.html) di corso. I
 video sono senza audio.
 
 ## Relatore
