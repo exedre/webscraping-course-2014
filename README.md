@@ -2,7 +2,10 @@
 
 Da questa pagina è possibile avere accesso al materiale rilasciato per il corso sul Web Scraping del 14-15 Gennaio 2014.
 
-È possibile accedere agli esempi di [codice](https://github.com/exedre/webscraping-course-2014/), alle [ slides e ai video](https://www.dropbox.com/sh/jbav67ad0zdnzef/5RG9BY5U1N).
+È possibile accedere agli esempi di
+[codice](https://github.com/exedre/webscraping-course-2014/), alle
+[ slides e ai video](https://www.dropbox.com/sh/jbav67ad0zdnzef/5RG9BY5U1N). I
+video sono senza audio.
 
 ## Relatore
 
@@ -54,12 +57,13 @@ Da questa pagina è possibile avere accesso al materiale rilasciato per il corso
 
 - [Open Source Chrome - da installare sul desktop Windows](http://portableapps.com/apps/internet/iron_portable) (come si installa [video](https://www.dropbox.com/s/lr33b3djj9irrxd/Install%20Iron%20Portable%20for%20Scraping.mp4) )
 
-- [Open Source Python - da installare sul desktop Windows](http://sourceforge.net/projects/winpython/files/WinPython_2.7/2.7.6.2/WinPython-32bit-2.7.6.2.exe/download) (si installa come il precedente)
+- [Open Source Python - da installare sul desktop Windows](http://sourceforge.net/projects/winpython/files/WinPython_2.7/2.7.6.2/WinPython-32bit-2.7.6.2.exe/download) (si installa più o meno come il precedente)
 
 
 ## Google Spreadsheet
 
 - [ImportHTML](http://www.labnol.org/internet/import-html-in-google-docs/28125/)
+- [ImportHTML Query Language: Tavole Pivot](https://developers.google.com/chart/interactive/docs/querylanguage#Pivot)
 - [ImportData](https://developers.google.com/secure-data-connector/docs/1.3/tutorials/spreadsheets)
 - [ImportFeed](http://www.labnol.org/internet/office/use-google-docs-spreadsheet-as-rss-reader-feed-aggregator/3527/)
 - [ImportXML](http://www.seerinteractive.com/blog/importxml-cookbook)
@@ -69,9 +73,9 @@ Da questa pagina è possibile avere accesso al materiale rilasciato per il corso
 
 - [Regular Expressions Tutorial](http://www.regular-expressions.info/tutorial.html)
 
-## Selettori CSS
+## XML
 
-- http://www.w3schools.com/cssref/css_selectors.asp
+- [Selettori CSS](http://www.w3schools.com/cssref/css_selectors.asp)
 
 
 ### Imparare Python
@@ -82,7 +86,6 @@ Da questa pagina è possibile avere accesso al materiale rilasciato per il corso
 - http://www.learnpython.org/
 - http://www.py4inf.com/
 - http://www.tutorialspoint.com/python/index.htm
-
 
 ## Uso di Python per lo scraping
 
@@ -110,12 +113,20 @@ Da questa pagina è possibile avere accesso al materiale rilasciato per il corso
 
 ## Distribuzioni Python per l'analisi dei dati
 
-- https://www.enthought.com/products/canopy/
-- http://www.continuum.io
-
-
+- [Enthough Canopy](https://www.enthought.com/products/canopy/)
+- [Continuum Anaconda](http://www.continuum.io)
 
 
 ## I link utilizzati negli esempi
 
-- 
+- [Tabella OECD](http://www.oecd-ilibrary.org/sites/cli-table-2013-11-en/index.html?contentType=/ns/KeyTable,/ns/StatisticalPublication&itemId=/content/table/2074384x-table1&containerItemId=/content/tablecollection/2074384x&accessItemIds=&mimeType=text/html)
+- [Wikipedia: Global Peace Index](http://en.wikipedia.org/wiki/Global_Peace_Index)
+- [Pagine Gialle: Pizzerie a Roma](http://roma.paginegialle.it/lazio/roma/pizzeria.html)
+- [Il Meteo](http://www.ilmeteo.it/portale/files/5913_day.xml)
+- [Ricerca Repubblica.it](http://ricerca.repubblica.it/ricerca/repubblica?query=%22banca+d%27italia%22&view=repubblica)
+- [CSV Stanford.edu](http://hci.stanford.edu/jheer/workshop/data/fec/fec96_10.csv)
+- [Wikipedia: 2012 Summer Olympics medal table](http://en.wikipedia.org/wiki/2012_Summer_Olympics_medal_table)
+- [Blog](http://intenseminimalism.com/)
+
+
+
