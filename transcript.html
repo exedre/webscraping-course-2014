@@ -1,0 +1,1372 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Webscraping-course-2014 by exedre</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Webscraping-course-2014</h1>
+        <p>Corso Webscraping 2014</p>
+
+        <p class="view"><a href="https://github.com/exedre/webscraping-course-2014">View the Project on GitHub <small>exedre/webscraping-course-2014</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/exedre/webscraping-course-2014/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/exedre/webscraping-course-2014/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/exedre/webscraping-course-2014">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+<h1 id="python:ilwebscrapingfattodifficile">Python: il web scraping fatto difficile</h1>
+
+<h2 id="esempio1-paginegialle">Esempio 1 - Pagine Gialle</h2>
+
+<p>Con questo comando alle parole chiave del linguaggio aggiungiamo lo
+spazio dei nomi di questa libreria e potremo utilizzare le funzioni in
+essa presenti.</p>
+
+<pre><code># esempio1.1.py
+import requests
+</code></pre>
+
+<p>con il comando:</p>
+
+<pre><code>dir(requests)
+</code></pre>
+
+<p>possiamo vedere cosa contiene la libreria. Se chi ha scritto la
+libreria ha seguito le convenzioni stilistiche del python (e potrebbe
+benissimo non averlo fatto) i nomi che iniziano con una lettera
+maiuscola sono oggetti, quelli con la lettera minuscola sono funzioni
+e ciò che inizia con il doppio underscore sono variabili speciali a
+volte create automaticamente dall&#8217;interprete Python.</p>
+
+<p>Per usare una funzione dovremo usare la notazione</p>
+
+<pre><code>&lt;libreria&gt;.&lt;nome&gt;
+</code></pre>
+
+<p>ad esempio noi vogliamo usare la funzione get e useremo: <code>request.get</code></p>
+
+<p>Esiste anche un&#8217;altra forma con cui possiamo importare questo nome nello spazio di lavoro</p>
+
+<pre><code>from requests import get
+</code></pre>
+
+<p>a questo punto potremo usare il nome &#8216;get&#8217; senza il nome di libreria.</p>
+
+<p>Quindi potremo fare:</p>
+
+<pre><code>import requests 
+data = requests.get(...)
+</code></pre>
+
+<p>oppure</p>
+
+<pre><code>from requests import get
+data = get(...)
+</code></pre>
+
+<p>Per ora la mia scelta è questa</p>
+
+<pre><code>import requests
+data = requests.get(&quot;http://roma.paginegialle.it/lazio/roma/pizzeria.html&quot;)
+</code></pre>
+
+<p>nella variabile data ottengo il risultato che in questo caso è un Oggetto di tipo Response. Posso chiederlo sulla linea di comando</p>
+
+<pre><code>In [22]: data
+Out[22]: &lt;Response [200]&gt;
+</code></pre>
+
+<p>Non è che si veda molto in effetti, ma anche qui possiamo usare la funzione dir</p>
+
+<pre><code>dir(data)
+Out[23]: 
+['__attrs__',
+ '__bool__',
+ '__class__',
+ '__delattr__',
+ '__dict__',
+ '__doc__',
+ '__format__',
+ '__getattribute__',
+ '__getstate__',
+ '__hash__',
+ '__init__',
+ '__iter__',
+ '__module__',
+ '__new__',
+ '__nonzero__',
+ '__reduce__',
+ '__reduce_ex__',
+ '__repr__',
+ '__setattr__',
+ '__setstate__',
+ '__sizeof__',
+ '__str__',
+ '__subclasshook__',
+ '__weakref__',
+ '_content',
+ '_content_consumed',
+ 'apparent_encoding',
+ 'close',
+ 'connection',
+ 'content',
+ 'cookies',
+ 'elapsed',
+ 'encoding',
+ 'headers',
+ 'history',
+ 'iter_content',
+ 'iter_lines',
+ 'json',
+ 'links',
+ 'ok',
+ 'raise_for_status',
+ 'raw',
+ 'reason',
+ 'request',
+ 'status_code',
+ 'text',
+ 'url']
+</code></pre>
+
+<p>Non scendo nel dettaglio, vediamo alcuni campi. Ad esempio reason ci riporta in termini umani la ragione della risposta. In questo caso otteniamo un laconico</p>
+
+<pre><code>In [33]: data.reason
+Out[33]: 'OK'
+</code></pre>
+
+<p>È andato tutto bene. Se c&#8217;è un errore&#8217; qui sarà scritto che errore è.</p>
+
+<p>Questa risposta che abbiamo assegnato alla variabile &#8216;data&#8217; è proprio
+la risposta che io ottengo facendo la richiesta attraverso
+internet. Non vi ho spiegato i dettagli del protocollo HTTP, basterà
+dire che quando richiedo qualcosa posso ottenere quella cosa oppure un
+errore. Quindi la risposta che ottengo può essere positiva o
+negativa. Se il codice è 200 la risposta è positiva. Perciò quando
+richiedo di stampare brevemente a video l&#8217;oggetto&#8217; ottengo quel
+numero. Almeno mi dice che c&#8217;è&#8217; qualcosa di buono dentro.</p>
+
+<p>Attenzione che c&#8217;è&#8217; errore ed errore (anzi per essere puntigliosi
+esiste errore ed eccezione). Infatti se provassi a fare, prima cancello la variabile data dall&#8217;area di lavoro&#8217;</p>
+
+<pre><code>del data 
+</code></pre>
+
+<p>e poi tento di scaricare una pagina da un server che proprio non esiste</p>
+
+<pre><code>data = request.get('http://indirizzochenonesiste.non')
+</code></pre>
+
+<p>non ho ottenuto un risultato ma quella che in gergo si chiama
+ECCEZIONE (una condizione d&#8217;errore&#8217; forte che impedisce l&#8217;esecuzione
+del mio programma&#8217; infatti se si cerca di vedere il contenuto di data
+proprio non esiste</p>
+
+<p>è rimasto quello che era prima di chiamare la funzione. In generale
+una eccezione all&#8217;interno&#8217; di uno script blocca l&#8217;esecuzione&#8217; dello
+script (il che è ragionevole tante volte).</p>
+
+<p>Invece se provo</p>
+
+<pre><code>data = requests.get('http://www.repubblica.it/paginachenonce')
+</code></pre>
+
+<p>non ottengo un&#8217;eccezione&#8217; perché un server effettivamente esiste e ha
+risposto con qualcosa che devo essere in grado di ispezionare. la
+variabile data infatti viene effettivamente modificata e dentro ci
+trovo:</p>
+
+<pre><code>In [29]: data
+Out[29]: &lt;Response [404]&gt;
+</code></pre>
+
+<p>Il famoso errore 404 che i siti web forniscono all&#8217;utente&#8217; che cerca
+di accedere ad una pagina che non esiste. Vediamo che è successo in parole umane:</p>
+
+<pre><code>In [31]: data.reason
+Out[31]: 'Not Found'
+</code></pre>
+
+<p>Ripartiamo:</p>
+
+<pre><code>import requests
+URL =  &quot;http://roma.paginegialle.it/lazio/roma/pizzeria.html&quot;)
+data = requests.get(URL)
+</code></pre>
+
+<p>fin qui ha funzionato, abbiamo un codice 200 OK, ora mi prendo il
+contenuto della risposta (ovvero la pagina Web che ho richiesto)</p>
+
+<pre><code>html = data.content
+</code></pre>
+
+<p>ecco, ora nella variabile html c&#8217;è il testo, proprio come quello che
+vedo in &#8220;Vedi sorgente del browser&#8221;. Non ci credete.</p>
+
+<p>potrei fare un</p>
+
+<pre><code>print html
+</code></pre>
+
+<p>e vederlo a video. dato che è troppa roba lo metto in un file</p>
+
+<pre><code>open('pizzerie.html','w').write(html)
+</code></pre>
+
+<p>ora lo apro con Emacs</p>
+
+<p>ed ecco il file html che ho scaricato da internet (emacs mi fa anche
+la colorazione del codice e mi riconosce che è xhtml. emacs lo capisce
+dalla prima riga quella del DTD ).</p>
+
+<p>come si vede il &#8216;modo&#8217; con cui emacs riconosce il file è XHTML questo
+mette a disposizione un paio di menu appositi (HTML e SGML) - questo
+mi dà modo di fare una parentesi per mostrarvi come il file che
+abbiamo scaricato (che un browser mostra del tutto perfettamente sia
+in effetti &#8216;invalido&#8217; secondo lo standard)</p>
+
+<p>Facciamo in modo che emacs lo veda come semplice XML</p>
+
+<p>questo fa partire uno strumento di convalida in linea che prende la
+definizione DTD e controlla il contenuto e ci dice che è Invalido e ci
+segna come errori rossi in particolare possiamo vedere che
+l&#8217;attributo&#8217; sizes è errato - vediamo cos&#8217;è l&#8217;attributo sizes e scopriamo che
+è un nuovo attributo introdotto con la versione 5 di HTML </p>
+
+<p>http://www.w3schools.com/tags/att_link_sizes.asp</p>
+
+<p>e non dovrebbe esserci in una pagina validata da HTML4. L&#8217;autore
+della pagina&#8217; ha quindi un po&#8217; pasticciato&#8217; tra le versioni di HTML -
+poco male, dal punto di vista di chi &#8216;vede&#8217; la pagina perché i browser
+tentano comunque di &#8216;mostrare&#8217; le cose che ricevono e, se nel caso,
+dovessero formattare il link in una dimensione differente da quella
+indicata da sizes tutt&#8217;al più&#8217; si spaginerebbe un po&#8217;
+l&#8217;impaginazione. Se noi con un programma però deducessimo qualsiasi
+tipo di informazione dal doctype verremmo tratti in errore. questo, se
+ancora ce ne è bisogna, dimostra come si deve porre sempre un po&#8217;
+attenzione in questo lavoro perché può essere reso problematico da
+cose abbastanza impercettibili.</p>
+
+<p>Nel nostro caso però, per ora, quest&#8217;errore non ci dà alcun fastidio.</p>
+
+<p>Cosa vogliamo fare ora? Abbiamo detto che vogliamo estrarre i nomi
+delle aziende sulla pagina.</p>
+
+<p>Il primo approccio che vi mostro è quello che potrebbe adottare chi
+non sa e non vuole sapere nulla di HTML, XML, XPAth, selettori CSS e
+via dicendo. Si usano le &#8220;espressioni regolari&#8221;. Nella teoria della
+computer science e nella teoria dei linguaggi formali una espressione
+regolare è una sequenza di caratteri che forma un pattern di ricerca
+all&#8217;interno di un testo. È un linguaggio formale completo, è basato
+su una solida base teorica definita dal matematico Stephen Cole
+Kleene, negli anni &#8217;50 e funziona.</p>
+
+<p>Ve lo mostro prima in Emacs che è più visibile abbiamo detto di avere il file HTML.</p>
+
+<p>Noi sappiamo che quello che cerchiamo sta all&#8217;interno dell&#8217;attributo class= di un tag a.</p>
+
+<p>Facciamo così, nel primo passaggio manteniamoci in memoria tutto quello che è contenuto nei tag a.</p>
+
+<pre><code>M-x keep-lines RETURN &lt;a.*&lt;/a RETURN
+</code></pre>
+
+<p>A questo punto ho tutti i link, ma devo tenermi solo quelli che hanno la classe che mi interessa cioè</p>
+
+<pre><code>M-x keep-lines RETURN class=&quot;_lms _noc&quot;
+</code></pre>
+
+<p>A questo punto ad ogni riga di questo file corrisponde un nome di azienda.</p>
+
+<p>Sempre con le espressioni regolari provvedo a pulire il tutto. Questa volta uso</p>
+
+<pre><code>M-x query-replace-regexp RETURN ^.*title=&quot;Scheda Azienda \([^&quot;]+\)&quot;.*$ RETURN \1 RETURN
+</code></pre>
+
+<p>Vediamo in python.</p>
+
+<p>Prima importo la libreria delle espressioni regolari</p>
+
+<pre><code>import re
+</code></pre>
+
+<p>Poi mi cerco tutti i link a</p>
+
+<pre><code>links = re.findall(r'\&lt;a.*\&lt;/a',html)
+</code></pre>
+
+<p>da questi filtro via tutti quelli che non rispettano la classe</p>
+
+<pre><code>clinks = filter(lambda x: re.search(r'class=&quot;_lms _noc&quot;',x), links)
+</code></pre>
+
+<p>ed infine ripulisco l&#8217;elenco ottenuto mantenendomi solo il nome che mi serve</p>
+
+<pre><code>pizzerie = map(lambda x: re.sub(r'^.*title=&quot;Scheda Azienda ([^&quot;]+)&quot;.*$','\\1',x), clinks)
+</code></pre>
+
+<p>alla fine nella variabile pizzerie ottengo quello che mi serviva</p>
+
+<pre><code>[&quot;THE VILLAGE PARCO DE' MEDICI&quot;,
+ 'PIZZERIA GRIGLIERIA CHICCO DI GRANO',
+ 'NAUMACHIA',
+ 'TERNO SECCO',
+ 'RISTORANTE LA MATRICIANA AI CONSOLI',
+ 'PIZZERIA LA GIANICOLENSE',
+ 'PIZZERIA ROMA SPARITA srl',
+ 'PIZZERIA PIZZA CIRO',
+ 'RISTORANTE PIZZERIA TRENTINO',
+ 'RISTORANTE BERNINETTA srl',
+ 'GAUCHOS PIZZA &amp;amp; GRILL GAUCHO 69 srl',
+ &quot;L'ORA MAGICA&quot;,
+ 'RISTORANTE LO SCHIDIONE srl',
+ 'LA GALLINA BIANCA srl',
+ 'RISTORANTE DA BRUNO AI QUATTRO VENTI',
+ 'PUB KILL JOY KJ srl',
+ 'OTTAVIANI',
+ &quot;MARIO'S A TRASTEVERE&quot;,
+ 'DA OTELLO IN TRASTEVERE',
+ 'LA BALESTRA di RUGHI FERNANDO',
+ 'PICCOLA PAUSA di MOCCI ANNALISA &amp;amp; C sas',
+ &quot;SCHIAVI D'ABRUZZO di NINO FALASCA&quot;,
+ 'TORCERVARA109',
+ 'AL GIARDINO DEL GATTO E LA VOLPE srl',
+ 'OSTERIA DEI PONTEFICI',
+ 'RISTORANTE PIZZERIA BIBO BAR',
+ 'LA MADIA',
+ 'EDEN MONTEVERDE RISTORANTE PIZZERIA ',
+ 'RISTORANTE PIZZERIA LA PIAZZETTA DE TRASTEVERE',
+ 'RISTORANTE IL BORGO DEGLI ULIVI di LIA ARBAU',
+ 'LA STIVA',
+ 'PORTO FLUVIALE FLUVIALE srl',
+ 'PIZZERIA RISTORANTE LE FINESTRE',
+ 'RAF srl',
+ &quot;L'ITALIA BUONA&quot;,
+ 'AL VECCHIO PIERROT S.M.P. srl',
+ 'ROSTI TREBIO srl',
+ &quot;FLANN O'BRIEN IRISH PUB&quot;,
+ &quot;RISTORANTE EDONE' EX ELMI&quot;,
+ 'HOTEL VILLA DELLE ROSE srl',
+ 'PIZZERIA ER PANONTO',
+ 'ARANCIO &amp;amp; CANNELLA GIOVE srl',
+ 'TORCHIO SARDO',
+ 'RISTORANTE TUCCI',
+ 'RISTORANTE GIAPASI',
+ 'RISTORANTE NUOVO GUSTO',
+ 'GLI SPECIALISTI',
+ 'RISTORANTE FIORE DI ZUCCA',
+ 'COLUMBUS GES BAR srl',
+ 'RISTORANTE PIZZERIA LE VOLTE']
+</code></pre>
+
+<p>Questa volta l&#8217;ho fatto in python ma ho replicato perfettamente gli
+stessi passi che ho fatto prima in EMACS</p>
+
+<p>ho preso il file -come se fosse semplicemente un file di testo-
+ho buttato via tutto quello che non fosse un link &lt;a&#8230;.&lt;/a
+di questi ho tenuto solo quelli della classe buona
+e infine ho buttato via tutti i caratteri che non mi servivano
+e ho ottenuto il risultato.</p>
+
+<p>Va notato che nel fare questa operazione non ho usato nessuno
+strumento che &#8217;capisce l&#8217;XML (o XPath o i selettori CSS), ho
+semplicemente fatto un &#8216;cerca e distruggi&#8217; di caratteri di testo.</p>
+
+<p>Può andare bene per cose semplici… molto semplici</p>
+
+<h2 id="esempio2-paginegialle2">Esempio 2 - PagineGialle / 2</h2>
+
+<blockquote>
+<p>http://arunrocks.com/easy-practical-web-scraping-in-python/</p>
+</blockquote>
+
+<p>Facciamo un altro esempio altrettanto semplice ma questa volta
+&#8220;capiamo l&#8217;XML&#8221;</p>
+
+<p>Questa volta, abbiamo detto, vogliamo usare una libreria che capisce
+l&#8217;XML, e non si limita a trattarlo come se fosse un testo.</p>
+
+<p>Esistono due famiglie di librerie del genere secondo che vogliamo che,
+nel capire l&#8217;XML, lo si voglia validare o meno. Nel nostro caso
+abbiamo visto che il sito web ci risponde con qualcosa che potrebbe
+non essere valido, quindi ci conviene usare una libreria che non
+pretenda la validazione e che sia specializzato per l&#8217;html proprio.</p>
+
+<p>Usiamo una funzione di libreria che si chiama fromstring dalla
+libreria lxml.html</p>
+
+<pre><code>from lxml.html import fromstring
+# URL =  &quot;http://roma.paginegialle.it/lazio/roma/pizzeria.html&quot;
+# data = requests.get(URL)
+# html = data.content
+</code></pre>
+
+<p>con questa libreria posso creare il DOM cioè il Document Object Model,
+il modello in memoria del documento che ho letto, dove ogni pezzo
+diventa un oggetto che può essere interrogato indipendentemente.</p>
+
+<pre><code>dom = fromstring(html)
+</code></pre>
+
+<p>Questo è il primo passo per poi poter usare XPath o i selettori CSS,
+che ci permette di navigare dentro il DOM. </p>
+
+<p>A questo punto possiamo selezionare i link di cui abbiamo bisogno e possiamo farlo indifferentemente con i selettori CSS, così:</p>
+
+<pre><code>links_c = dom.cssselect(&quot;a._lms._noc&quot;)
+</code></pre>
+
+<p>oppure con XPath, così:</p>
+
+<pre><code>links_x = dom.xpath(&quot;//a[@class='_lms _noc']&quot;)
+</code></pre>
+
+<p>Dovremmo verificare che sono uguali</p>
+
+<pre><code>links_c == links_x
+
+In [124]: links_c == links_x
+Out[124]: True
+</code></pre>
+
+<p>ed infatti così è</p>
+
+<p>A questo punto non ci resta che tirar fuori le informazioni:</p>
+
+<pre><code>pizzerie_2 = [ link.attrib['title'][len(&quot;Scheda Azienda &quot;):] for link in links_c ]
+</code></pre>
+
+<p>Questa cosa ve la spiego un po&#8217; più in dettaglio.</p>
+
+<p>Quello che noi dobbiamo fare è questo:</p>
+
+<pre><code>L = len(&quot;Scheda Azienda &quot;) # Quanti caratteri eliminare davanti il nome
+pizzerie_2 = []            # Creo una lista di risultati vuota
+for link in links_c: # Per ogni link nella lista di ingresso
+    title = link.attrib('title') # Prendo il valore dell'attributo title
+    pizzerie_2.append(title[L:]) # Salvo il risultato
+</code></pre>
+
+<p>Il tutto il python si può scrivere (ma non di deve scrivere è solo una
+cosa che potete trovare comoda)</p>
+
+<pre><code>risultato = [ &lt;funzione&gt; for &lt;variabile&gt; in &lt;lista&gt; ]
+</code></pre>
+
+<p>Ed è quello che ho fatto: ho messo in pizzerie_2 l&#8217;attributo title, a
+partire da un certo punto in poi di tutti i link indicati.</p>
+
+<p>A questo punto dovrebbe risultare che:</p>
+
+<pre><code>In [118]: pizzerie == pizzerie_2
+Out[118]: False
+</code></pre>
+
+<p>E invece no! Cosa è successo?</p>
+
+<p>Cerchiamo di capirlo usando un filtro. Prendo i due array con i
+risultati e li metto assieme in modo che al primo risultato del primo
+corrisponda il primo del secondo. Lo faccio con la funzione &#8216;zip&#8217;</p>
+
+<pre><code>zip(pizzerie, pizzerie_2)
+
+[(&quot;THE VILLAGE PARCO DE' MEDICI&quot;, &quot;THE VILLAGE PARCO DE' MEDICI&quot;),
+ ('PIZZERIA GRIGLIERIA CHICCO DI GRANO',
+  'PIZZERIA GRIGLIERIA CHICCO DI GRANO'),
+ ('NAUMACHIA', 'NAUMACHIA'),
+ ('TERNO SECCO', 'TERNO SECCO'),
+</code></pre>
+
+<p>Viene fuori un nuovo array con gli elementi accoppiati a due a due.</p>
+
+<p>A questo punto filtro via quelli che non sono uguali con la funzione
+filter usando una piccola funzione &#8216;anonima&#8217; (una funzione così
+semplice che non ha bisogno neppure di un nome), in questo caso
+ritorna vero se i due elementi sono differenti. filter quindi produrrà
+un nuovo array in cui ci sono solo gli elementi che tra loro due
+risultano differenti. Si fa prima a farla questa cosa che a spiegarla.</p>
+
+<pre><code>filter(lambda x: x[0]!=x[1], zip(pizzerie, pizzerie_2))
+</code></pre>
+
+<p>Alla fine il risultato è</p>
+
+<pre><code>[('GAUCHOS PIZZA &amp;amp; GRILL GAUCHO 69 srl',     'GAUCHOS PIZZA &amp; GRILL GAUCHO 69 srl'),
+ ('PICCOLA PAUSA di MOCCI ANNALISA &amp;amp; C sas', 'PICCOLA PAUSA di MOCCI ANNALISA &amp; C sas'),
+ ('ARANCIO &amp;amp; CANNELLA GIOVE srl',            'ARANCIO &amp; CANNELLA GIOVE srl')]
+</code></pre>
+
+<p>Cos&#8217;è successo? In tutto l&#8217;array ci sono tre elementi differenti. E la
+differenza sta nel carattere &amp;. Beh, a &#8220;non capire l&#8217;XML&#8221; qualche
+problema ce l&#8217;abbiamo.</p>
+
+<p>Il carattere di testo &amp; (E commerciale) è per il linguaggio XML un
+carattere speciale. È proprio il carattere che serve a definire i
+caratteri speciali! Ad esempio se in XML vogliamo definire il
+carattere ™ (Trademark) in XML (che è progettato per usare solo un
+alfabeto ristretto) bisogna usare il gruppo di caratteri &trade;</p>
+
+<p>Quindi &amp; da solo è un errore, e per definire il carattere &amp; si usa
+&amp; che è ciò che troviamo a sinistra (che sono le cose lette &#8216;senza
+capire l&#8217;XML&#8217;). A destra invece la libreria, che interpreta
+correttamente l&#8217;XML, interpreta anche i caratteri speciali. È del
+tutto logico il risultato quindi. Se non utilizziamo il metodo giusto
+otteniamo il risultato corretto. Altrimenti dovremo fare
+un&#8217;lavorazione per pulire i dati ottenuti.</p>
+
+<h2 id="esempio3-ancorapaginegialle">Esempio 3 - Ancora PagineGialle</h2>
+
+<p>Spero che fin qui siamo arrivati senza troppi traumi. Perché adesso viene il bello!</p>
+
+<p>Usiamo un&#8217;altra libreria.</p>
+
+<pre><code>from BeautifulSoup import BeautifulSoup
+</code></pre>
+
+<p>Si chiama così in onore della &#8220;mock turtle soup&#8221; di Lewis Carroll</p>
+
+<blockquote>
+<p>Bella Zuppa, così ricca e verde,
+che aspetti in una terrina bollente!
+Chi non si soffermerebbe su tali leccornie?
+Zuppa della sera, bella zuppa!
+Zuppa della sera, bella zuppa!</p>
+</blockquote>
+
+<p>Riprendiamo il testo che è in html e facciamo la zuppa</p>
+
+<pre><code>soup = BeautifulSoup(html)
+</code></pre>
+
+<p>a questo punto costruiamo la lista dei risultati</p>
+
+<pre><code>pizzerie_3 = [ re.sub('^Scheda Azienda ',',h2['title']) for h2 in soup.findAll('a', attrs={'class': '_lms _noc'})]
+</code></pre>
+
+<p>e dovrebbe essere che</p>
+
+<pre><code>pizzerie_3 == pizzerie_2
+</code></pre>
+
+<p>In definitiva il programma è così:</p>
+
+<pre><code>from BeautifulSoup import BeautifulSoup
+
+soup = BeautifulSoup(html)
+
+pizzerie_3 = [ re.sub('^Scheda Azienda ','',h2['title']) for h2 in soup.findAll('a', attrs={'class': '_lms _noc'})]
+</code></pre>
+
+<h2 id="esempio4-linkedin">Esempio 4 - Linkedin</h2>
+
+<p>Tentiamo a questo punto di fare un passo oltre.</p>
+
+<p>Diciamo di voler prendere un sito noto, ad esempio Linkedin, ed
+estrarvi i dati relativi ad alcune aziende.</p>
+
+<p>Immaginiamo di volere i dati di qualche grandi aziende
+internazionale. Questa volta faremo un programma che si lancia dalla
+linea di comando. Vogliamo una cosa del genere:</p>
+
+<pre><code>getlinkedin1.py google microsoft oracle ibm facebook
+</code></pre>
+
+<p>per ottenere i dati che ci servono.</p>
+
+<p>Introduciamo alcuni concetti nuovi.</p>
+
+<p>Innanzitutto importiamo le funzioni e le librerie che ci servono</p>
+
+<pre><code>from bs4 import BeautifulSoup
+import sys
+import requests
+</code></pre>
+
+<p><code>bs4</code> è la versione 4 di BeutifulSoup. Ora creiamo un dizionario dove
+inserire i risultati. </p>
+
+<pre><code>results = []
+</code></pre>
+
+<p>Creo una lista in cui mettere i risultati. </p>
+
+<p>A questo punto dobbiamo raccogliere dalla linea di comando la lista
+dei nomi delle aziende. Si usa una particolare lista messa a
+disposizione dalla libreria sys chiamata argv che contiene l&#8217;elenco
+delle parole che abbiamo scritto sulla linea di comando. Poiché non ci
+serve il nome del comando inizieremo a prenderla dal secondo elemento
+in poi (in Python si inizia a contare da 0):</p>
+
+<pre><code>companies = sys.argv[1:]
+</code></pre>
+
+<p>A questo punto possiamo iniziare il loop:</p>
+
+<pre><code>for company in sys.argv[1:]:
+     url = &quot;http://www.linkedin.com/company/{}&quot;.format(company)
+     raw = requests.get(url).content
+
+     soup = BeautifulSoup(raw)
+</code></pre>
+
+<p>Questi sono più o meno gli stessi comandi che abbiamo visto finora. La
+funzione <code>format</code> serve a sostituire le parentesi graffe nella stringa
+con il contentuto della variabile <code>company</code>. Sembra strano che il nome
+della funzione sia alla fine, vero? Ci saremmo aspettati qualcosa del
+tipo:</p>
+
+<pre><code>url = format(&quot;http://www.linkedin.com/company/{}&quot;,company)
+</code></pre>
+
+<p>Ok. Ne abbiamo già parlato. Questa è solo l&#8217;applicazione dei concetti
+di linguaggio ad oggetti. La stringa:</p>
+
+<pre><code> &quot;http://www.linkedin.com/company/{}&quot;
+</code></pre>
+
+<p>è un oggetto e quindi posso applicarci sopra dei metodi. Infatti posso
+fare tranquillamente qualcosa del tipo:</p>
+
+<pre><code> dir(&quot;pippo&quot;)
+</code></pre>
+
+<p>oppure</p>
+
+<pre><code> help(&quot;pippo&quot;.format)
+ Help on built-in function format:
+
+ format(...)
+      S.format(*args, **kwargs) -&gt; string
+
+      Return a formatted version of S, using substitutions from args and kwargs.
+      The substitutions are identified by braces ('{' and '}').
+</code></pre>
+
+<p>Andiamo avanti:</p>
+
+<pre><code>node = soup.find(attrs = {&quot;class&quot; : &quot;grid-f&quot;})
+</code></pre>
+
+<p>L&#8217;obiettivo adesso è buttar via tutto della pagina e tenersi solo il
+pezzo che ci interessa, quindi andiamo a cercare la sezione della
+pagine html dove c&#8217;è il quadro delle informazioni. La sezione è in
+fondo alla pagina e inizia con un <code>div</code> che ha classe <code>grid-f</code>. In
+mezzo alla zuppa vado a prendere proprio quest&#8217;elemento.</p>
+
+<pre><code>if node!=None:
+    info = node.find(attrs = {&quot;class&quot; : &quot;basic-info&quot;})
+    titles = [item.get_text(strip=True) for item in info.findAll(&quot;dt&quot;)]
+    data = [item.get_text(strip=True) for item in info.findAll(&quot;dd&quot;)]    
+    output = dict(zip(titles,data))
+else:
+    output = {}
+</code></pre>
+
+<p>Se lo trovo, a partire da quel nodo lì mi cerco la sezione delle
+informazioni (<code>class=&quot;basic-info&quot;</code>) e dentro questo prendo i titoli
+dai tag <code>dt</code> e i valori da quelli <code>dd</code>. Dopo mi creo un dizionario
+accoppiando gli elementi di una lista e dell&#8217;altra e usando la
+funzione che crea i dizionari. Nel caso in cui il nodo non esiste
+semplicemente restituisco un dizionario vuoto. Un &#8216;dizionario&#8217;
+(chiamato anche hash o mappa) è una collezione in cui è possibile
+accedere agli oggetti attraverso una chiave qualsiasi (una stringa o
+un numero). A differenza di una lista non è ordinata e soprattutto non
+esiste un concetto di adiacenza delle chiavi. Per definirla si fa
+semplicemente così:</p>
+
+<pre><code>output['company']=company
+</code></pre>
+
+<p>Aggiungo al dizionario delle informazioni della singola azienda anche
+il nome dell&#8217;azienda.</p>
+
+<pre><code>results.append(output)
+</code></pre>
+
+<p>E salvo tutto nella lista dei risultati. E il loop è finito.</p>
+
+<p>In realtà, per essere un po&#8217; buono nei confronti di Linkedin, posso
+adottare un accorgimento: attendere un periodo di tempo casuale da 5 a
+10 secondi prima di fare il prossimo giro del loop.</p>
+
+<pre><code>import random, time
+sleep_time = random.uniform(5,10)
+time.sleep(sleep_time)
+</code></pre>
+
+<p>importo le librerie necessarie (questo avrei potuto metterlo
+all&#8217;inizio, ma comunque anche mettendolo qui non cambia molto, non
+saranno reimportate ad ogni giro di loop, ma solo la prima volta.</p>
+
+<p>Estraggo un valore casuale da una distribuzione uniforme con limiti 5
+e 10, e <em>dormo</em> per questo tempo.</p>
+
+<p>Quando il loop è finito devo mostrare il risultato. Per esempio posso
+fare così:</p>
+
+<pre><code>import json
+print json.dumps(results, indent=2)
+</code></pre>
+
+<p>importo la libreria che gestisce il formato json e faccio un <code>dump</code>
+del dizionario. Tutto qui.</p>
+
+<p>Per usarlo posso fare una cosa simile a quella che mi ero ripromesso all&#8217;inizio:</p>
+
+<pre><code>python getlinkedin1.py google microsoft oracle ibm facebook
+</code></pre>
+
+<p>oppure introdurre queste due righe all&#8217;inizio del programma:</p>
+
+<pre><code>#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+</code></pre>
+
+<p>poi renderlo eseguibile con</p>
+
+<pre><code>chmod a+x getlinkedin1.py
+</code></pre>
+
+<p>e finalmente usarlo come:</p>
+
+<pre><code>./getlinkedin1.py google microsoft oracle ibm facebook
+</code></pre>
+
+<p>e il risultato è:</p>
+
+<pre><code> {
+   &quot;oracle&quot;: {
+     &quot;Website&quot;: &quot;http://www.oracle.com&quot;, 
+     &quot;Company Size&quot;: &quot;10,001+ employees&quot;, 
+     &quot;Industry&quot;: &quot;Information Technology and Services&quot;, 
+     &quot;Founded&quot;: &quot;1977&quot;, 
+     &quot;Type&quot;: &quot;Public Company&quot;, 
+     &quot;company&quot;: &quot;oracle&quot;
+   }, 
+   &quot;google&quot;: {
+     &quot;Website&quot;: &quot;http://www.google.com&quot;, 
+     &quot;Company Size&quot;: &quot;10,001+ employees&quot;, 
+     &quot;Industry&quot;: &quot;Internet&quot;, 
+     &quot;Founded&quot;: &quot;1998&quot;, 
+     &quot;Type&quot;: &quot;Public Company&quot;, 
+     &quot;company&quot;: &quot;google&quot;
+   }, 
+   &quot;facebook&quot;: {
+     &quot;Website&quot;: &quot;http://www.facebook.com/&quot;, 
+     &quot;Company Size&quot;: &quot;5001-10,000 employees&quot;, 
+     &quot;Industry&quot;: &quot;Internet&quot;, 
+     &quot;Founded&quot;: &quot;2004&quot;, 
+     &quot;Type&quot;: &quot;Public Company&quot;, 
+     &quot;company&quot;: &quot;facebook&quot;
+   }, 
+   &quot;microsoft&quot;: {
+     &quot;Website&quot;: &quot;http://www.microsoft.com/&quot;, 
+     &quot;Company Size&quot;: &quot;10,001+ employees&quot;, 
+     &quot;Industry&quot;: &quot;Computer Software&quot;, 
+     &quot;Founded&quot;: &quot;1975&quot;, 
+     &quot;Type&quot;: &quot;Public Company&quot;, 
+     &quot;company&quot;: &quot;microsoft&quot;
+   }, 
+   &quot;ibm&quot;: {
+     &quot;Company Size&quot;: &quot;10,001+ employees&quot;, 
+     &quot;Website&quot;: &quot;http://www.ibm.com&quot;, 
+     &quot;Industry&quot;: &quot;Information Technology and Services&quot;, 
+     &quot;Type&quot;: &quot;Public Company&quot;, 
+     &quot;company&quot;: &quot;ibm&quot;
+   }
+ }
+</code></pre>
+
+<p>Se avessi i nomi delle aziende in un file, uno per riga, invece di</p>
+
+<pre><code>companies = sys.argv[1:]
+</code></pre>
+
+<p>potrei usare:</p>
+
+<pre><code>companies = open(sys.argv[1],'r').readlines()
+</code></pre>
+
+<p>Se invece di visualizzare i dati in formato JSON vogliamo scriverli su
+CSV possiamo usare una funzione così definita.</p>
+
+<pre><code> import unicodecsv
+ def write_csv_file(fname,content,delimiter=';'):
+   try:
+     with open(fname, 'wb') as csvfile:
+         writer = unicodecsv.writer(csvfile, delimiter, encoding='utf-8')
+         keys = content[0].keys()
+         writer.writerow(keys)
+         for element in content:          
+           writer.writerow(element.values())
+   except:
+     raise
+</code></pre>
+
+<p>E poi usarla come:</p>
+
+<pre><code> write_csv_file('linkedin_companies.csv',results)
+</code></pre>
+
+<p>Che scriverà i dati in un file csv chiamato csv.</p>
+
+<h2 id="esempio5-enotecabulzoni">Esempio 5 - Enoteca Bulzoni</h2>
+
+<p>http://www.enotecabulzoni.it/en/view/Vini%20%20Bianchi/Pinot+Bianco+%22Penon%22/5439</p>
+
+<h2 id="esempio6-mecanize">Esempio 6 - Mecanize</h2>
+
+<blockquote>
+<p>http://stockrt.github.io/p/emulating-a-browser-in-python-with-mechanize/</p>
+</blockquote>
+
+<p>Primo esempio.</p>
+
+<p>Abbiamo visto la pagina informativa su Google messa a disposizione da
+Linkedin. Quella è la pagina che un utente non autenticato a Linkedin
+può vedere.</p>
+
+<p>Questa è quella che invece può vedere un utente autenticato. È molto
+differente, ci sono molte più informazioni a cui non abbiamo accesso
+se non siamo autenticati.</p>
+
+<p>Secondo Esempio.</p>
+
+<p>Questa è normattiva, la collezione (purtroppo ancora parziale) delle
+leggi nazionali. Se si preme quel pulsante lì in alto si può esportare
+la legge in formato XML, ma prima bisogna passare per un test di
+Turing (un capcha), poi si giunge in una pagina di selezione in cui
+indicare a che data di vigenza si vuole scaricare la legge e poi
+premere il pulsante &#8220;Esporta&#8221;.</p>
+
+<p>Qui non bisogna autenticarsi, ma se non si fa tutto il percorso
+semplicemente non si raggiunge il risultato.</p>
+
+<p>Per farla breve, non sempre se vediamo qualcosa su un browser è
+semplice o possibile scaricare quella pagina attraverso un indirizzo
+Internet. In generale questa cosa diventa sempre più rara.</p>
+
+<p>Per questo motivo abbiamo bisogno di costruire programmi che emulano i
+percorsi del browser proprio come se ci fosse un uomo a guidarli.</p>
+
+<p>Questo è esattamente il punto in cui un linguaggio moderno come python
+supera gli altri. Quello che abbiamo fatto fino ad adesso, con qualche
+complicazione, sarebbe stato possibile anche farlo con R, questo no.</p>
+
+<p>L&#8217;idea è di usare delle librerie apposite che colloquiano con i server
+web proprio come se fossero dei browser. È un po&#8217; come se voi foste
+nella pancia di browser e invece di cliccare a caso sullo schermo come
+si fa di solito doveste dargli i comandi scrivendo linee di codice.</p>
+
+<p>Come si fa?</p>
+
+<p>Si inizia importando la libreria <code>mechanize</code>e creando un browser:</p>
+
+<pre><code>import mechanize
+br = mechanize.Browser()
+</code></pre>
+
+<p>Diciamo al browser di gestire alcune opzioni comuni</p>
+
+<pre><code>br.set_handle_equiv(True)
+br.set_handle_gzip(True)
+br.set_handle_redirect(True)
+br.set_handle_referer(True)
+br.set_handle_robots(False)
+br.set_handle_refresh(mechanize._http.HTTPRefreshProcessor(), max_time=1)
+</code></pre>
+
+<p>Se vogliamo possiamo definire alcune opzioni per il debug</p>
+
+<pre><code>br.set_debug_http(True)
+br.set_debug_redirects(True)
+br.set_debug_responses(True)
+</code></pre>
+
+<p>Poi ci occupiamo di creare la sessione di lavoro, per questo abbiamo
+bisogno di gestire i <code>cookie</code> di sessione:</p>
+
+<pre><code>import cookielib
+cj = cookielib.LWPCookieJar()
+br.set_cookiejar(cj)
+</code></pre>
+
+<p>Definiamo lo user-agent (e questo È barare):</p>
+
+<pre><code>br.addheaders = [('User-agent', 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.1) Gecko/2008071615 Fedora/3.0.1-1.fc9 Firefox/3.0.1')]
+</code></pre>
+
+<p>A questo punto facciamo qualcosa, prendo un sito a caso:</p>
+
+<pre><code>r = br.open('http://google.com')
+html = r.read()
+</code></pre>
+
+<p>Oh… siamo più o meno dove eravamo prima.</p>
+
+<pre><code>print br.title()
+</code></pre>
+
+<p>Stampo le forms disponibili:</p>
+
+<pre><code>for f in br.forms():
+    print f
+</code></pre>
+
+<p>C&#8217;è una sola form e quindi ottengo questo risultato:</p>
+
+<pre><code>&lt;f GET http://www.google.it/search application/x-www-form-urlencoded
+  &lt;HiddenControl(hl=it) (readonly)&gt;
+  &lt;HiddenControl(source=hp) (readonly)&gt;
+  &lt;TextControl(q=)&gt;
+  &lt;SubmitControl(btnG=Cerca con Google) (readonly)&gt;
+  &lt;SubmitControl(btnI=Mi sento fortunato) (readonly)&gt;
+  &lt;HiddenControl(gbv=1) (readonly)&gt;&gt;
+</code></pre>
+
+<p>Questa è la rappresentazione della classica form di Google. Ci sono
+sei controlli (pensate ad un controllo come ad un elemento con il
+quale potete interagire come una casella di testo). Di questi 3 sono
+nascosti e contengono dei valori preimpostati (ad esempio la
+lingua). Poi c&#8217;è un controllo chiamaot <code>q</code> che è la casella di ricerca
+(<em>query</em>) e i due classici pulsanti di Google (&#8220;Cerca con Google&#8221; e
+&#8220;Mi sento fortunato&#8221;).</p>
+
+<p>Seleziono la prima form (quella della ricerca):</p>
+
+<pre><code>br.select_form(nr=0)
+</code></pre>
+
+<p>Inserisco una chiave di ricerca:</p>
+
+<pre><code>br.form['q']='data science'
+</code></pre>
+
+<p>E lancio la ricerca:</p>
+
+<pre><code>r = br.submit()
+</code></pre>
+
+<p>A questo punto la mia pagina è cambiata. Se mi interessa posso avere
+l&#8217;html della nuova pagina con:</p>
+
+<pre><code>html = r.read()
+</code></pre>
+
+<p>Così a titolo di esempio facciamo una cosa così:</p>
+
+<pre><code>from bs4 import BeautifulSoup
+soup = BeautifulSoup(html)
+nres = soup.find('div',attrs={'id':'resultStats'}).text
+print nres
+</code></pre>
+
+<p>E così è possibile verificare quanti risultati ha una certa ricerca di Google.</p>
+
+<p>Oppure posso andare a selezionare all&#8217;interno dei risultati quelli
+nella cui URL c&#8217;è <code>wikipedia</code>:</p>
+
+<pre><code>wlinks =  [ w for w in br.links(url_regex='wikipedia') ]
+
+for l in wlinks:
+    print l.url
+</code></pre>
+
+<p>Guardando il risultato:</p>
+
+<pre><code>/url?q=http://en.wikipedia.org/wiki/Data_science&amp;sa=U&amp;ei=OXTRUp3wAcfJ4gS07oDIDA&amp;ved=0CCYQFjAA&amp;usg=AFQjCNE9mU0tkp8RMHL_B97WUs6rx91ZmQ
+/url?q=http://webcache.googleusercontent.com/search%3Fhl%3Dit%26q%3Dcache:9-f2bTZhGx8J:http://en.wikipedia.org/wiki/Data_science%252Bdata%2Bscience%26gbv%3D1%26ct%3Dclnk&amp;sa=U&amp;ei=OXTRUp3wAcfJ4gS07oDIDA&amp;ved=0CCcQIDAA&amp;usg=AFQjCNEWnaHGZ9SQvXa7x7EDyd7zOrpPbg
+/search?hl=it&amp;gbv=1&amp;q=related:en.wikipedia.org/wiki/Data_science+data+science&amp;tbo=1&amp;sa=X&amp;ei=OXTRUp3wAcfJ4gS07oDIDA&amp;ved=0CCgQHzAA
+/url?q=http://en.wikipedia.org/wiki/Data_science%23Origins&amp;sa=U&amp;ei=OXTRUp3wAcfJ4gS07oDIDA&amp;ved=0CCoQ0gIoADAA&amp;usg=AFQjCNHDhSHntwY3aajUKMncFR-HlQ5hPg
+/url?q=http://en.wikipedia.org/wiki/Data_science%23History&amp;sa=U&amp;ei=OXTRUp3wAcfJ4gS07oDIDA&amp;ved=0CCsQ0gIoATAA&amp;usg=AFQjCNFl6AxwELTborUNTf2ziJlZJaYhOw
+/url?q=http://en.wikipedia.org/wiki/Data_science%23Domain_Specific_Interests&amp;sa=U&amp;ei=OXTRUp3wAcfJ4gS07oDIDA&amp;ved=0CCwQ0gIoAjAA&amp;usg=AFQjCNEl_rKBUGT2-bVFnbLfDfWSZ6jYzQ
+/url?q=http://en.wikipedia.org/wiki/Data_science%23Research_Areas&amp;sa=U&amp;ei=OXTRUp3wAcfJ4gS07oDIDA&amp;ved=0CC0Q0gIoAzAA&amp;usg=AFQjCNHmxByaL4fxn220tvSSpIZKY2cF3A
+/url?q=http://en.wikipedia.org/wiki/Data_science&amp;sa=U&amp;ei=OXTRUp3wAcfJ4gS07oDIDA&amp;ved=0CDUQ9QEwAg&amp;usg=AFQjCNE9mU0tkp8RMHL_B97WUs6rx91ZmQ
+</code></pre>
+
+<p>si può notare che in una pagina dei risultati di google i link
+indicati non rimandano VERAMENTE alle pagine trovate, ma ad un altro
+link interno di Google che poi trasferirà l&#8217;utente. Probabilmente per
+registrare informazioni di natura statistica o per il tracciamento
+degli utenti.</p>
+
+<p>Prendiamo il primo risultato</p>
+
+<pre><code>w0 = wlinks[0]
+r = br.open(w0.url)
+</code></pre>
+
+<p>E verifichiamo di essere stato trasportato effettivamente sulla pagina di Wikipedia.</p>
+
+<pre><code>print br.title()
+print br.geturl()
+</code></pre>
+
+<p>Per fare qualcosa con questa pagina riportiamo l&#8217;elenco delle lingue in cui la pagina è tradotta:</p>
+
+<pre><code>html = r.read()
+soup = BeautifulSoup(html)
+a_li = soup.select('.interlanguage-link')
+print ('\n'.join([ li.a['lang']+&quot; &quot;+li.text for li in a_li])).encode('utf-8')
+</code></pre>
+
+<p>Così otteniamo:</p>
+
+<pre><code>fa فارسی
+fr Français
+lv Latviešu
+ja 日本語
+ru Русский
+</code></pre>
+
+<h2 id="esempio7-uncrawler">Esempio 7 - Un crawler</h2>
+
+<blockquote>
+<p>https://github.com/creeveshft/Web_Scraping</p>
+</blockquote>
+
+<p>Adesso vedremo l&#8217;implementazione di un particolare programma che è al
+cuore della realizzazione dei motori di ricerca il <code>Web Crawler</code>. Il
+crawler, che è chiamato anche spider o ant o scutter, raggiunge una
+pagina Web e ne estrare tutti gli hyperlink che poi frequenta ad uno
+ad uno per fare la stessa operazione. Alla fine avrà creato un grande
+indice delle pagine disponibili.</p>
+
+<p>Per l&#8217;implementazione di un crawler abbiamo bisogno di queste librerie:</p>
+
+<pre><code>import sys
+from bs4 import BeautifulSoup
+import urlparse
+import mechanize
+</code></pre>
+
+<p>Partiamo da un indirizzo che forniamo sulla riga di comando:</p>
+
+<pre><code>url = sys.argv[1]
+</code></pre>
+
+<p>Attiviamo il browser di mechanize:</p>
+
+<pre><code>br = mechanize.Browser()
+</code></pre>
+
+<p>Creaiamo tre insiemi, uno con le url da visitare:</p>
+
+<pre><code>urls = set()
+urls.add(url)
+</code></pre>
+
+<p>e uno con quelle già visitate:</p>
+
+<pre><code>visited = set()
+</code></pre>
+
+<p>creiamone anche uno con le url che non si possono leggere</p>
+
+<pre><code>errors = set()
+</code></pre>
+
+<p>E così iniziamo il loop:</p>
+
+<pre><code>while len(urls)&gt;0:
+</code></pre>
+
+<p>estraiamo un url:</p>
+
+<pre><code>    this = urls.pop()
+</code></pre>
+
+<p>e proviamo ad aprirlo:</p>
+
+<pre><code>    try:
+        br.open(this)
+</code></pre>
+
+<p>poi per ognuno dei link presenti:</p>
+
+<pre><code>        for link in br.links():
+</code></pre>
+
+<p>creiamo una url assoluta
+ newurl = urlparse.urljoin(link.base_url,link.url)</p>
+
+<p>se non è già stata visitata, e non è già previsto di visitarla la
+aggiungiamo all&#8217;elenco delle url da visitare</p>
+
+<pre><code>        if url in newurl and newurl not in visited:
+            urls.add(newurl)
+        visited.add(this)
+</code></pre>
+
+<p>Se qualcosa va male e c&#8217;è una eccezione inseriamo la url nella lista
+degli errori:</p>
+
+<pre><code>    except:
+        errors.add(this)
+</code></pre>
+
+<p>Poiché il processo può essere molto lungo inseriamo una stampa ogni
+1000 url visitate:</p>
+
+<pre><code>if len(visited) % 1000 == 0:
+    print &quot;E&quot;,len(errors),&quot;U&quot;,len(urls),&quot;V&quot;,len(visited)
+</code></pre>
+
+<p>L&#8217;operatore <code>%</code> è il modulo.</p>
+
+<p>Alla fine salviamo due file, uno con le url visitate <code>links.txt</code> e uno
+con gli errori <code>errors.txt</code>:</p>
+
+<pre><code>open('links.txt','w').write('\n'.join(visited))
+open('errors.txt','w').write('\n'.join(errors))
+</code></pre>
+
+<h1 id="webscrapingconpythonresosemplice">Webscraping con Python reso semplice</h1>
+
+<h2 id="esempio8-webscraping1">Esempio 8 - Webscraping / 1</h2>
+
+<p>Finora abbiamo utilizzato librerie python generiche per la gestione
+delle pagine Web. Con il passare del tempo questi metodi sono stati
+sistematizzati in librerie di più alto livello realizzate proprio per
+lo scopo di costruire programmi di webscraping.</p>
+
+<p>Una di queste si chiama semplicemente <code>webscraping</code> e funziona grossomodo così:</p>
+
+<p>Prima si importano le funzioni che ci interessano:</p>
+
+<pre><code>from webscraping import download, xpath
+</code></pre>
+
+<p>poi si crea un motore per il download delle pagine</p>
+
+<pre><code>engine = download.Download()
+</code></pre>
+
+<p>e si ottiene la pagina HTML:</p>
+
+<pre><code>html = D.get('http://code.google.com/p/webscraping')
+</code></pre>
+
+<p>e fin qui stiamo più o meno dove eravamo con la libreria <code>requests</code>,
+ma questo punto si può usare l&#8217;oggetto xpath per acquisire le informazioni.</p>
+
+<pre><code>project_title = xpath.get(html, '//div[@id=&quot;pname&quot;]/a/span')
+</code></pre>
+
+<h2 id="esempio9-webscrapingpaginegialle">Esempio 9 - Webscraping / Pagine Gialle</h2>
+
+<p>Se vogliamo affrontare lo stesso problema dell&#8217;esempio 1 e 2 possiamo fare così:</p>
+
+<p>Importiamo le librerie
+ from webscraping import download, xpath</p>
+
+<p>Creiamo il motore per il fetch della pagina</p>
+
+<pre><code>engine = download.Download()
+</code></pre>
+
+<p>Definiamo la pagina e la scarichiamo:
+ URL = &#8220;http://roma.paginegialle.it/lazio/roma/pizzeria.html&#8221;
+ html = engine.get(URL)</p>
+
+<p>Creiamo l&#8217;oggetto da interrogare con xpath:</p>
+
+<pre><code>doc = xpath.Doc(html)
+</code></pre>
+
+<p>Questo è un po&#8217; l&#8217;equivalente del <code>soup</code> di BeautifulSoup, ma potrò
+essere interrogato solo con xpath.</p>
+
+<p>Infine estraiamo le pizzerie:</p>
+
+<pre><code>pizzerie = doc.search(&quot;//a[@class='_lms _noc']/@title&quot;)
+</code></pre>
+
+<p>Per la verità vogliamo eliminare la parte iniziale del titolo (&#8216;Scheda Azienda&#8217;), quindi:</p>
+
+<pre><code>pizzerie = [ x[15:] for x in doc.search(&quot;//a[@class='_lms _noc']/@title&quot;)]
+</code></pre>
+
+<p>Allo stesso modo potranno essere estratti i numeri di telefono:</p>
+
+<pre><code>tel = doc.search(&quot;//div[@class='tel']/span[@class='value']/text()&quot;)]
+</code></pre>
+
+<p>Prendiamo anche l&#8217;indirizzo:</p>
+
+<pre><code>address = doc.search(&quot;//div[@class='address']/span[@class='street-address']/text()&quot;)
+</code></pre>
+
+<p>Mettiamo assieme queste due informazioni:</p>
+
+<pre><code>info = zip(tel,address)
+</code></pre>
+
+<p>E aggreghiamo tutto in una specie di elenco telefonico:</p>
+
+<pre><code>elenco_tel = dict(zip(pizzerie,info))
+</code></pre>
+
+<p>Se vogliamo interrogarlo possiamo fare una cosa del genere:</p>
+
+<pre><code>print elenco_tel['OSTERIA DEI PONTEFICI']
+('06 5896848', '53, V. Gregorio VII')
+</code></pre>
+
+<p>E se vogliamo invece inserire solo una stringa parziale usiamo la libreria <code>re</code>. Creiamo una funzione <code>cerca</code>:</p>
+
+<pre><code>import re
+def cerca(cosa):
+    match = filter(lambda x: re.search(cosa,x,re.I), elenco_tel)
+    for p in match:
+        print p,&quot;:&quot;,' - '.join(elenco_tel[p])
+</code></pre>
+
+<p>E quindi possiamo ottenere:</p>
+
+<pre><code>cerca('ponte')
+OSTERIA DEI PONTEFICI : 06 5896848 - 53, V. Gregorio VII
+</code></pre>
+
+<p>Invece con:</p>
+
+<pre><code>cerca('pizz')
+TRATTORIA PIZZERIA DA ARMANDO : 06 39378219 - 1/6, Pl. Tiburtino
+ANTICA PIZZERIA EST EST EST F.LLI RICCI : 06 4881107 - 32, V. Genova
+RISTORANTE PIZZERIA TRENTINO : 06 58233605 - 21/31, V. Sacconi
+PIZZERIA GRIGLIERIA CHICCO DI GRANO : 06 47825033 - 6/7/8, V. Zingari
+EDEN MONTEVERDE RISTORANTE PIZZERIA : 06 66152514,06 66156591,06 66154866 - 14/A, P. Ottavilla
+PIZZERIA ROMA SPARITA srl : 06 76900646,06 7615517 - 24, P. S. Cecilia
+PIZZERIA LA GIANICOLENSE : 06 39733477 - 238, Circonv. Gianicolense
+PIZZERIA PIZZA CIRO : 06 76900646 - 43/45, V. Mercede
+GAUCHOS PIZZA &amp;amp; GRILL GAUCHO 69 srl : 06 3236806,06 3208402 - 606, V. M. Battistini
+RISTORANTE PIZZERIA LA PIAZZETTA DE TRASTEVERE : 06 66156591 - 16/B, V. Merry Del Val
+PIZZERIA ER PANONTO : 06 8551076 - 8/10, V. Cravero
+RISTORANTE PIZZERIA BUONO LES srl : 06 5818413 - 1, V. Albenga
+PIZZERIA RISTORANTE LE FINESTRE : 06 39378219,06 635206 - 80/86, V. Chiana
+RISTORANTE PIZZERIA BIBO BAR : 06 8555127,339 2229692 - 58, P. Ss. Apostoli
+</code></pre>
+
+<h2 id="esempio10-webcrapingconscreenshot">Esempio 10 - Webcraping con screenshot</h2>
+
+<p>La libreria webscraping permette di meccanizzare l&#8217;interazione con il
+web come abbiamo visto anche con mechanize. Le modalità sono simili.</p>
+
+<p>Innanzitutto importo il <code>webkit</code> da <code>webscraping</code>:</p>
+
+<pre><code>from webscraping import webkit
+w = webkit.WebkitBrowser(gui=True)
+</code></pre>
+
+<p>Prendo un sito internet (duckduckgo è un motore di ricerca meno conosciuto di google):</p>
+
+<pre><code>w.get('http://duckduckgo.com')
+</code></pre>
+
+<p>Riempio la casella di ricerca:</p>
+
+<pre><code>w.fill('input[id=search_form_input_homepage]', 'webscraping')
+</code></pre>
+
+<p>A questo punto premo il pulsante di ricerca:</p>
+
+<pre><code>w.click('input[id=search_button_homepage]')
+</code></pre>
+
+<p>Aspetto un po&#8217; per assicurarmi che i risultati sono correttamente stati caricati</p>
+
+<pre><code>w.wait(10)
+</code></pre>
+
+<p>E a questo punto posso prendere il risultato della pagina:</p>
+
+<pre><code>html = w.current_html()
+</code></pre>
+
+<p>ed usarlo come abbiamo già visto, ad esempio attraverso l&#8217;oggetto
+<code>xpath</code> della stessa libreria.</p>
+
+<p>Ma, ad esempio, posso anche fare uno screenshot della pagina e poi
+salvarlo in un file JPG:</p>
+
+<pre><code>w.screenshot('duckduckgo_results.jpg')
+</code></pre>
+
+<h1 id="webscrapingfattopiùsemplice">Webscraping fatto più semplice</h1>
+
+<pre><code>import scraperwiki
+import requests
+import lxml.html
+import pprint
+
+html = requests.get(&quot;http://intenseminimalism.com/&quot;).content
+dom = lxml.html.fromstring(html)
+
+for entry in dom.cssselect('.article'):
+    post = {
+        'title': entry.cssselect('h1 a')[0].text_content(),
+        'date': entry.cssselect('.time')[0].text_content(),
+        'url': entry.cssselect('h1 a')[0].get('href'),
+    }
+    pprint.pprint(post)
+
+scraperwiki.sql.save(['url'], post)
+</code></pre>
+
+<h2 id="elezionisenato">Elezioni Senato</h2>
+
+<p>https://classic.scraperwiki.com/scrapers/elezioni_senato_2006&#8211;2008<em>-</em>basilicata/</p>
+
+<p>select * from <code>swdata</code> where candidate like &#8216;%BERSANI% &#8217; and votes&gt;0 limit 10</p>
+
+<p>select * from <code>swdata</code> where candidate like &#8216;%PANNELLA% &#8217; and votes&gt;0 limit 10</p>
+
+<h2 id="scioperi">Scioperi</h2>
+
+<p>https://classic.scraperwiki.com/scrapers/scioperi_it/</p>
+
+<p>http://www.cgsse.it/web/guest/home</p>
+
+<h2 id="anagrafebiblioteche">Anagrafe Biblioteche</h2>
+
+<p>https://classic.scraperwiki.com/scrapers/anagrafebiblioteche/</p>
+
+<h2 id="opendatagov.it">Opendata Gov.IT</h2>
+
+<p>https://classic.scraperwiki.com/scrapers/datigovit_1/</p>
+
+<h2 id="elencoaziende">Elenco Aziende</h2>
+
+<p>https://classic.scraperwiki.com/scrapers/tutorial_paginegialle/</p>
+
+<h2 id="eubalancesheets">EU Balance Sheets</h2>
+
+<p>https://classic.scraperwiki.com/scrapers/balance-sheets/</p>
+
+<h2 id="extracttable">ExtractTable</h2>
+
+<p>http://www.whitehouse.gov/sites/default/files/omb/budget/fy2014/assets/tables.pdf</p>
+
+     </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/exedre">exedre</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
