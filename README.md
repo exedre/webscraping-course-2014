@@ -16,7 +16,9 @@ video sono senza audio.
 
 ## Installazione programmi in Windows
 
-È possibile usare le versioni portabili open source dei programmi visti nel corso che si installano senza la necessità di avere utenze amministrative e possono essere utilizzati direttamente.
+È possibile usare le versioni portabili open source dei programmi
+visti nel corso che si installano senza la necessità di avere utenze
+amministrative e possono essere utilizzati direttamente.
 
 - [Open Source Chrome - da installare sul desktop Windows](http://portableapps.com/apps/internet/iron_portable) (come si installa [video](https://www.dropbox.com/s/lr33b3djj9irrxd/Install%20Iron%20Portable%20for%20Scraping.mp4) )
 
